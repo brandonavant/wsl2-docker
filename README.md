@@ -25,12 +25,19 @@ I originally considered typing out all of the instructions in this repo for inst
 
 That being said, please look [here](https://docs.docker.com/engine/install/ubuntu/#installation-methods) and follow the official Docker for Ubuntu instructions.
 
-Once you've installed docker, attempt to start the service and subsequently check its _running_ status:
+Once you've installed docker, attempt to start the service:
 
 ```bash
 sudo service docker start
+```
+
+and then check the status
+
+```bash
 sudo service docker status
 ```
+
+> NOTE: I noticed that if you run both `start` and `status` commands in quick succession (e.g. by using the `&&` operator), you might get a false positive showing that the status is running when it's not. If you runn the commands using the `&&` operator, follow up by checking the status once again.
 
 There is a good chance that you will receive a status indicating that Docker is _not_ running -- i.e. you might see this status:
 
@@ -70,8 +77,39 @@ You should now receive a _Running_ status:
 * Docker is running
 ```
 
-We are not done yet! We must now ensure that we automatically start the service each time our WSL 2 instance starts. To do this, simply modify `~/.bashrc` and add the following lines to the bottom of the file:
+We are not done yet! We must now ensure that we automatically start the service each time our WSL 2 instance starts. To do this, we need to modify a few files.
+
+First, run we must modify the sudoers configuration file:
+
+```bash
+sudo visudo
+```
+
+Add the following to the bottom of the file:
+
+```bash
+# Allow user to utse service without sudo
+brandon ALL=(ALL) NOPASSWD: /usr/sbin/service
+```
+
+Next, modify `~/.bashrc` and add the following lines to the bottom of the file:
 
 ```
-pgrep -f docker > /dev/null || echo "sudo service docker 
+# Start dockerd, if it's not running
+pgrep -f docker > /dev/null || echo "service docker start"
+```
+
+Finally, open a PowerShell session and run this command to shutdown WSL 2 (replacing the name of the Ubuntu instance accordingly):
+
+```powershell
+wsl --terminate Ubuntu-22.04
+```
+
+Open a new Ubuntu terminal session and check the status to make sure Docker is running
+
+```bash
+STATUS="$(sudo service docker status)"
+if [ "${STATUS}" = " * Docker is not running" ]; then
+  sudo service docker start > /dev/null 2>&1
+fi
 ```
