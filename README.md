@@ -99,6 +99,12 @@ Next, modify `~/.bashrc` and add the following lines to the bottom of the file:
 pgrep -f docker > /dev/null || echo "service docker start"
 ```
 
+We need to also ensure that we can run docker without needing `sudo`. To do this, run the following command:
+
+```json
+sudo usermod -aG docker $USER && newgrp docker
+```
+
 Finally, open a PowerShell session and run this command to shutdown WSL 2 (replacing the name of the Ubuntu instance accordingly):
 
 ```powershell
