@@ -101,7 +101,7 @@ pgrep -f docker > /dev/null || echo "service docker start"
 
 We need to also ensure that we can run docker without needing `sudo`. To do this, run the following command:
 
-```json
+```bash
 sudo usermod -aG docker $USER && newgrp docker
 ```
 
