@@ -37,7 +37,7 @@ and then check the status
 sudo service docker status
 ```
 
-> NOTE: I noticed that if you run both `start` and `status` commands in quick succession (e.g. by using the `&&` operator), you might get a false positive showing that the status is running when it's not. If you runn the commands using the `&&` operator, follow up by checking the status once again.
+> NOTE: I noticed that if you run both `start` and `status` commands in quick succession (e.g. by using the `&&` operator), you might get a false positive showing that the status is running when it's not. If you run the commands using the `&&` operator, follow up by checking the status once again.
 
 There is a good chance that you will receive a status indicating that Docker is _not_ running -- i.e. you might see this status:
 
@@ -89,7 +89,7 @@ Add the following to the bottom of the file:
 
 ```bash
 # Allow user to utse service without sudo
-brandon ALL=(ALL) NOPASSWD: /usr/sbin/service
+<your-username> ALL=(ALL) NOPASSWD: /usr/sbin/service
 ```
 
 Next, modify `~/.bashrc` and add the following lines to the bottom of the file:
