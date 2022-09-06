@@ -119,3 +119,13 @@ if [ "${STATUS}" = " * Docker is not running" ]; then
   sudo service docker start > /dev/null 2>&1
 fi
 ```
+
+## Install Minikube
+
+To install Minikube (as a local single-cluster Kubernetes environment), follow the instructions [here](https://minikube.sigs.k8s.io/docs/start/).
+
+> NOTE: It will likely be necessary to run the following command prior to running `minikube start` in order to set the default driver as _Docker_:
+
+```bash
+minikube config set driver docker
+```
