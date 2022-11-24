@@ -122,7 +122,7 @@ fi
 
 ## Install Minikube
 
-To install Minikube (as a local single-cluster Kubernetes environment), follow the instructions [here](https://minikube.sigs.k8s.io/docs/start/).
+To install Minikube (as a local single-node Kubernetes environment), follow the instructions [here](https://minikube.sigs.k8s.io/docs/start/).
 
 > NOTE: It will likely be necessary to run the following command prior to running `minikube start` in order to set the default driver as _Docker_:
 
