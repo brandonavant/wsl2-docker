@@ -92,17 +92,19 @@ Add the following to the bottom of the file:
 <your-username> ALL=(ALL) NOPASSWD: /usr/sbin/service
 ```
 
-Next, modify `~/.bashrc` and add the following lines to the bottom of the file:
-
-```
-# Start dockerd, if it's not running
-pgrep -f docker > /dev/null || echo "service docker start"
-```
-
 We need to also ensure that we can run docker without needing `sudo`. To do this, run the following command:
 
 ```bash
 sudo usermod -aG docker $USER && newgrp docker
+```
+
+Next, modify `~/.bashrc` and add the following lines to the bottom of the file:
+
+```bash
+STATUS="$(sudo service docker status)"
+if [ "${STATUS}" = " * Docker is not running" ]; then
+  sudo service docker start > /dev/null 2>&1
+fi
 ```
 
 Finally, open a PowerShell session and run this command to shutdown WSL 2 (replacing the name of the Ubuntu instance accordingly):
@@ -114,10 +116,7 @@ wsl --terminate Ubuntu-22.04
 Open a new Ubuntu terminal session and check the status to make sure Docker is running
 
 ```bash
-STATUS="$(sudo service docker status)"
-if [ "${STATUS}" = " * Docker is not running" ]; then
-  sudo service docker start > /dev/null 2>&1
-fi
+sudo service docker status
 ```
 
 ## Install Minikube
